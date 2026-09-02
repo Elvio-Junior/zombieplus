@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Night of the Living Dead",
+    "overview": "Um grupo de pessoas tenta sobreviver dentro de uma fazenda isolada enquanto mortos-vivos atacam o local.",
+    "company": "Paramount Pictures",
+    "release_year": 1970,
+    "feature": false,
+    "cover": "/images/covers/night_of_the_living_dead.png"
+  },
+  {
+    "title": "Dawn of the Dead",
+    "overview": "Quatro sobreviventes de uma praga de zumbis se refugiam em um grande shopping center abandonado.",
+    "company": "Fox Entertainment",
+    "release_year": 1978,
+    "feature": false,
+    "cover": "/images/covers/dawn_of_the_dead_1978.png"
+  },
+  {
+    "title": "28 Days Later",
+    "overview": "Um homem acorda de um coma em Londres e descobre que um vírus misterioso transformou a população em assassinos velozes.",
+    "company": "Universal Pictures",
+    "release_year": 2002,
+    "feature": false,
+    "cover": "/images/covers/28_days_later.png"
+  },
+  {
+    "title": "Shaun of the Dead",
+    "overview": "Um homem sem rumo na vida tenta reconquistar a namorada e salvar sua mãe no meio de um apocalipse zumbi repentino.",
+    "company": "Universal Pictures",
+    "release_year": 2004,
+    "feature": false,
+    "cover": "/images/covers/shaun_of_the_dead.png"
+  },
+  {
+    "title": "Dawn of the Dead",
+    "overview": "Uma enfermeira, um policial e outros sobreviventes se escondem em um shopping para escapar de zumbis agressivos.",
+    "company": "Universal Pictures",
+    "release_year": 2004,
+    "feature": false,
+    "cover": "/images/covers/dawn_of_the_dead_2004.png"
+  },
+  {
+    "title": "Resident Evil",
+    "overview": "Uma equipe militar luta contra uma supermáquina fora de controle e centenas de cientistas que viraram zumbis após um vazamento laboratorial.",
+    "company": "Amazon Studios",
+    "release_year": 2002,
+    "feature": false,
+    "cover": "/images/covers/resident_evil.png"
+  },
+  {
+    "title": "Zombieland",
+    "overview": "Um estudante tímido encontra o caminho de volta para sua família seguindo regras rígidas de sobrevivência ao lado de três estranhos.",
+    "company": "Sony Pictures",
+    "release_year": 2009,
+    "feature": false,
+    "cover": "/images/covers/zombieland.png"
+  },
+  {
+    "title": "World War Z",
+    "overview": "Um ex-investigador das Nações Unidas corre contra o tempo ao redor do mundo para impedir uma pandemia zumbi catastrófica.",
+    "company": "Paramount Pictures",
+    "release_year": 2013,
+    "feature": false,
+    "cover": "/images/covers/world_war_z.png"
+  },
+  {
+    "title": "Train to Busan",
+    "overview": "Passageiros lutam para sobreviver dentro de um trem de alta velocidade quando um surto zumbi toma conta da Coreia do Sul.",
+    "company": "Columbia Pictures",
+    "release_year": 2016,
+    "feature": false,
+    "cover": "/images/covers/train_to_busan.png"
+  },
+  {
+    "title": "Rec",
+    "overview": "Uma repórter de televisão e seu cinegrafista ficam presos dentro de um prédio escuro colocado em quarentena por uma infecção mortal.",
+    "company": "Columbia Pictures",
+    "release_year": 2007,
+    "feature": false,
+    "cover": "/images/covers/rec.png"
+  }
+]
