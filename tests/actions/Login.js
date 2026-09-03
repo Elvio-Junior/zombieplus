@@ -5,6 +5,12 @@ export class Login {
         this.page = page
     }
 
+    async do(name, password) {
+        this.visit()
+        this.submitLoginForm(name, password)
+        this.isLoggedIn()
+    }
+    
     async visit() {
         await this.page.goto('http://localhost:3000/admin/login')
 

@@ -1,16 +1,6 @@
-import { expect } from '@playwright/test';
-
 export class Movies {
     constructor(page) {
         this.page = page
-    }
-
-    async isLoggedIn() {
-        const logoutLink = this.page.locator('a[href="/logout"]')
-
-        await this.page.waitForLoadState('networkidle') // aguarda o trafico de rede pos-login
-        await expect(logoutLink).toBeVisible()
-        await expect(this.page).toHaveURL(/.*admin/)
     }
 
     async goForm() {
