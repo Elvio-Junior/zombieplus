@@ -42,13 +42,13 @@ test('Deve cadastar 1 lead na espera - caminho feliz', async ({ page }) => {
   const leadEmail = faker.internet.email()
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
 
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
 
   // submitLeadForm
-  await page.landing.submitLeadForm(leadName, leadEmail)
+  await page.leads.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
   const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!'
@@ -71,11 +71,11 @@ test('Não deve cadastar 1 lead na espera com mesmo lead', async ({ page, reques
   expect(newLead.ok()).toBeTruthy()
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
   // submitLeadForm
-  await page.landing.submitLeadForm(leadName, leadEmail)
+  await page.leads.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
   const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
@@ -106,16 +106,16 @@ test('Não Deve cadastar com email incorreto', async ({ page }) => {
   //const landingPage = new LandingPage(page)
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
 
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
 
   // submitLeadForm
-  await page.landing.submitLeadForm('Fernano Papito', 'email')
+  await page.leads.submitLeadForm('Fernano Papito', 'email')
 
   // alertHaveText
-  await page.landing.alertHaveText('Email incorreto')
+  await page.leads.alertHaveText('Email incorreto')
 });
 
 test('Não Deve cadastar quando o nome não é preenchido', async ({ page }) => {
@@ -137,16 +137,16 @@ test('Não Deve cadastar quando o nome não é preenchido', async ({ page }) => 
   */
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
 
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
 
   // submitLeadForm
-  await page.landing.submitLeadForm('', 'email@email.com')
+  await page.leads.submitLeadForm('', 'email@email.com')
 
   // alertHaveText
-  await page.landing.alertHaveText('Campo obrigatório')
+  await page.leads.alertHaveText('Campo obrigatório')
 });
 
 test('Não Deve cadastar quando o email não é preenchido', async ({ page }) => {
@@ -169,16 +169,16 @@ test('Não Deve cadastar quando o email não é preenchido', async ({ page }) =>
   //const landingPage = new LandingPage(page)
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
 
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
 
   // submitLeadForm
-  await page.landing.submitLeadForm('Fernando Papito', '')
+  await page.leads.submitLeadForm('Fernando Papito', '')
 
   // alertHaveText
-  await page.landing.alertHaveText('Campo obrigatório')
+  await page.leads.alertHaveText('Campo obrigatório')
 });
 
 test('Não Deve cadastar quando nenhum campo é preenchido', async ({ page }) => {
@@ -202,14 +202,14 @@ test('Não Deve cadastar quando nenhum campo é preenchido', async ({ page }) =>
   //const landingPage = new LandingPage(page)
 
   // visit
-  await page.landing.visit()
+  await page.leads.visit()
 
   // openLeadModal
-  await page.landing.openLeadModal()
+  await page.leads.openLeadModal()
 
   // submitLeadForm
-  await page.landing.submitLeadForm('', '')
+  await page.leads.submitLeadForm('', '')
 
   // alertHaveText
-  await page.landing.alertHaveText(['Campo obrigatório', 'Campo obrigatório'])
+  await page.leads.alertHaveText(['Campo obrigatório', 'Campo obrigatório'])
 });
