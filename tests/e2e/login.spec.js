@@ -1,8 +1,7 @@
 // @ts-check
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 const { LoginPage } = require('../pages/LoginPage')
-const { Toast } = require('../pages/Components')
-const { Alert } = require('../pages/Components')
+const { Toast, Alert, PoupUp } = require('../pages/Components')
 const { MoviesPage } = require('../pages/MoviesPage')
 /**
  * @type {LoginPage}
@@ -23,11 +22,17 @@ let alert
  */
 let moviesPage
 
+/**
+ * @type {PoupUp}
+ */
+let poupUp
+
 test.beforeEach(async ({page})=> {
  loginPage = new LoginPage(page)
  toast = new Toast(page)
  alert = new Alert(page)
  moviesPage = new MoviesPage(page)
+ poupUp = new PoupUp(page)
 }) 
 
 test('Deve logar como administrador', async ({ page }) => {
@@ -43,9 +48,14 @@ test('Não Deve logar com senha incorreta', async ({ page }) => {
 
     await loginPage.submitLoginForm('admin@zombieplus.com', 'abc123')
 
-    const message = 'Oops!Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.'
 
-    await toast.containText(message)
+    //v4
+    //const message = 'Oops!Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.'
+    //await toast.containText(message)
+
+    const message = 'Ocorreu um erro ao tentar efetuar o login. Por favor, verifique suas credenciais e tente novamente.'
+
+    await poupUp.haveText('.swal2-html-container', message)
 });
 
 test('Não Deve logar quando o email não for  preenchido', async ({ page }) => {
@@ -53,15 +63,22 @@ test('Não Deve logar quando o email não for  preenchido', async ({ page }) => 
 
     await loginPage.submitLoginForm('', 'abc123')
 
-    await alert.haveText('.email-alert', 'Campo obrigatório')
+    //v4
+    //await alert.haveText('.email-alert', 'Campo obrigatório')
+    
+    await alert.haveText('.alert', 'Campo obrigatório')
+
 });
 
 test('Não Deve logar quando a senha não for  preenchido', async ({ page }) => {
     await loginPage.visit()
 
     await loginPage.submitLoginForm('admin@zombieplus.com', '')
+    //v4
+    //await alert.haveText('.password-alert', 'Campo obrigatório')
+    
+    await alert.haveText('.alert', 'Campo obrigatório')
 
-    await alert.haveText('.password-alert', 'Campo obrigatório')
 });
 
 test('Não Deve logar quando nenhum campo for  preenchido', async ({ page }) => {

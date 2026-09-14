@@ -5,14 +5,14 @@ export class Login {
         this.page = page
     }
 
-    async do(name, password) {
-        this.visit()
-        this.submitLoginForm(name, password)
-        this.isLoggedIn()
+    async do(name, password, userName) {
+        await this.visit()
+        await this.submitLoginForm(name, password)
+        await this.isLoggedIn(userName)
     }
     
     async visit() {
-        await this.page.goto('http://localhost:3000/admin/login')
+        await this.page.goto('/admin/login')
 
         const loginForm = this.page.locator('.login-form')
 
@@ -26,12 +26,16 @@ export class Login {
         await this.page.getByText('Entrar').click()
     }
 
-    async isLoggedIn() {
+    async isLoggedIn(userName) {
+
+        const loggedUser = this.page.locator('.logged-user')
         const logoutLink = this.page.locator('a[href="/logout"]')
 
         await this.page.waitForLoadState('networkidle') // aguarda o trafico de rede pos-login
         await expect(logoutLink).toBeVisible()
         await expect(this.page).toHaveURL(/.*admin/)
+
+        await expect(loggedUser).toHaveText(`Olá, ${userName}`)
     }
 
 }

@@ -5,7 +5,7 @@
     "company": "Paramount Pictures",
     "release_year": 1970,
     "feature": false,
-    "cover": "/images/covers/night_of_the_living_dead.png"
+    "cover": "/covers/movies/dead-snow.jpg"
   },
   {
     "title": "Dawn of the Dead",
@@ -13,7 +13,7 @@
     "company": "Fox Entertainment",
     "release_year": 1978,
     "feature": false,
-    "cover": "/images/covers/dawn_of_the_dead_1978.png"
+    "cover": "/covers/movies/exterminio.jpg"
   },
   {
     "title": "28 Days Later",
@@ -21,7 +21,7 @@
     "company": "Universal Pictures",
     "release_year": 2002,
     "feature": false,
-    "cover": "/images/covers/28_days_later.png"
+    "cover": "/covers/movies/madrugada.jpg"
   },
   {
     "title": "Shaun of the Dead",
@@ -29,7 +29,7 @@
     "company": "Universal Pictures",
     "release_year": 2004,
     "feature": false,
-    "cover": "/images/covers/shaun_of_the_dead.png"
+    "cover": "/covers/movies/mortos-vivos.jpg"
   },
   {
     "title": "Dawn of the Dead",
@@ -37,7 +37,7 @@
     "company": "Universal Pictures",
     "release_year": 2004,
     "feature": false,
-    "cover": "/images/covers/dawn_of_the_dead_2004.png"
+    "cover": "/covers/movies/mortos-vivos-2.jpg"
   },
   {
     "title": "Resident Evil",
@@ -45,7 +45,7 @@
     "company": "Amazon Studios",
     "release_year": 2002,
     "feature": false,
-    "cover": "/images/covers/resident_evil.png"
+    "cover": "/covers/movies/resident-evil.jpg"
   },
   {
     "title": "Zombieland",
@@ -53,7 +53,7 @@
     "company": "Sony Pictures",
     "release_year": 2009,
     "feature": false,
-    "cover": "/images/covers/zombieland.png"
+    "cover": "/covers/movies/zumbilandia.jpg"
   },
   {
     "title": "World War Z",
@@ -61,7 +61,7 @@
     "company": "Paramount Pictures",
     "release_year": 2013,
     "feature": false,
-    "cover": "/images/covers/world_war_z.png"
+    "cover": "/covers/movies/wwz.png"
   },
   {
     "title": "Train to Busan",
@@ -69,7 +69,7 @@
     "company": "Columbia Pictures",
     "release_year": 2016,
     "feature": false,
-    "cover": "/images/covers/train_to_busan.png"
+    "cover": "/covers/movies/warm-bodies.jpg"
   },
   {
     "title": "Rec",
@@ -77,6 +77,6 @@
     "company": "Columbia Pictures",
     "release_year": 2007,
     "feature": false,
-    "cover": "/images/covers/rec.png"
+    "cover": "/covers/movies/opz.jpg"
   }
 ]

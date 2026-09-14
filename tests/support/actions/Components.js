@@ -27,3 +27,16 @@ export class Alert {
         await expect(alert).toHaveText(text)
     }
 }
+
+export class PoupUp {
+
+    constructor(page) {
+        this.page = page
+    }
+
+    async haveText(message) {
+        const element = this.page.locator('.swal2-html-container')
+
+        await expect(element).toHaveText(message)
+    }
+}

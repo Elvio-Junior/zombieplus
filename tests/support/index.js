@@ -1,9 +1,10 @@
 const { test: base, expect } = require('@playwright/test')
 
-const { Leads } = require('../actions/Leads')
-const { Login } = require('../actions/Login')
-const { Movies } = require('../actions/Movies')
-const { Toast, Alert } = require('../pages/Components')
+const { Leads } = require('./actions/Leads')
+const { Login } = require('./actions/Login')
+const { Movies } = require('./actions/Movies')
+const { Toast, Alert, PoupUp } = require('../support/actions/Components')
+const { API } = require('./api')
 
 const test = base.extend({
 
@@ -14,8 +15,18 @@ const test = base.extend({
         page.movies = new Movies(page)
         page.toast = new Toast(page)
         page.alert = new Alert(page)
+        page.poupUp = new PoupUp(page)
 
         await use(page)
+    },
+
+    api: async({ request }, use) => {
+
+        const api = new API(request)
+
+        await api.setToken()
+
+        await use(api)
     }
 })
 

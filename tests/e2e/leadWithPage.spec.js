@@ -1,5 +1,10 @@
 import { test, expect } from '../support';
 const { faker } = require('@faker-js/faker')
+const { executeSQL } = require('../support/database')
+
+test.beforeAll(async () => {
+    executeSQL('DELETE from public.leads')
+})
 
 test('Deve cadastar 1 lead na espera', async ({ page }) => {
   await page.goto('http://localhost:3000')
@@ -28,13 +33,18 @@ test('Deve cadastar 1 lead na espera', async ({ page }) => {
   await page.getByTestId('modal')
     .getByText('Quero entrar na fila').click()
 
-  const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
 
   // const content = await.page.content() -- obter o HTML da pagina
-  await expect(page.locator('.toast')).toHaveText(message)
+  //v4
+  //const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //await expect(page.locator('.toast')).toHaveText(message)
+  //await expect(page.locator('.toast')).toBeHidden({ timeout: 5000 })
+  //const message = 'Verificamos que o endereço de e-mail fornecido já consta em nossa lista de espera. Isso significa que você está um passo mais perto de aproveitar nossos serviços.'
 
-  await expect(page.locator('.toast')).toBeHidden({ timeout: 5000 })
-
+  const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato.'
+  
+  await expect(page.locator('.swal2-html-container')).toHaveText(message)
+  
 });
 
 test('Deve cadastar 1 lead na espera - caminho feliz', async ({ page }) => {
@@ -51,9 +61,13 @@ test('Deve cadastar 1 lead na espera - caminho feliz', async ({ page }) => {
   await page.leads.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
-  const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!'
+  // v4
+  //const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!'
+  //await page.toast.containText(message)
 
-  await page.toast.containText(message)
+  const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato.'
+
+  await page.poupUp.haveText(message)
 
 });
 
@@ -78,9 +92,13 @@ test('Não deve cadastar 1 lead na espera com mesmo lead', async ({ page, reques
   await page.leads.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
-  const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //v4
+  //const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //await page.toast.containText(message)
 
-  await page.toast.containText(message)
+  const message = 'Verificamos que o endereço de e-mail fornecido já consta em nossa lista de espera. Isso significa que você está um passo mais perto de aproveitar nossos serviços.'
+
+  await page.poupUp.haveText(message)
 
 });
 

@@ -4,8 +4,7 @@ const { test } = require('@playwright/test')
 Deve estar logado 
 */
 const { LoginPage } = require('../pages/LoginPage')
-const { Toast } = require('../pages/Components')
-const { Alert } = require('../pages/Components')
+const { Toast, Alert, PoupUp } = require('../pages/Components')
 const { MoviesPage } = require('../pages/MoviesPage')
 const data = require('../support/fixtures/movies.json')
 const { executeSQL } = require('../support/database')
@@ -29,11 +28,17 @@ let alert
  */
 let moviesPage
 
+/**
+ * @type {PoupUp}
+ */
+let poupUp
+
 test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page)
     toast = new Toast(page)
     alert = new Alert(page)
     moviesPage = new MoviesPage(page)
+    poupUp = new PoupUp(page)
 })
 test('deve poder cadastrar um novo filme', async ({ page }) => {
 
@@ -46,5 +51,8 @@ test('deve poder cadastrar um novo filme', async ({ page }) => {
 
     await moviesPage.create(movie.title, movie.overview, movie.company, movie.release_year)
 
-    await toast.containText('Cadastro realizado com sucesso!')
+    //v4
+    //await toast.containText('Cadastro realizado com sucesso!')
+
+    await poupUp.haveText('.swal2-html-container', `O filme '${movie.title}' foi adicionado ao catálogo.`)
 })

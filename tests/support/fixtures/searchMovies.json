@@ -1,0 +1,44 @@
+{
+  "search": {
+    "input": "Dead",
+    "outputs": [
+      "Night of the Living Dead",
+      "Dawn of the Dead",
+      "Dawn of the Dead"
+    ],
+    "data": [
+      {
+        "title": "Night of the Living Dead",
+        "overview": "Um grupo de pessoas tenta sobreviver dentro de uma fazenda isolada enquanto mortos-vivos atacam o local.",
+        "company": "Paramount Pictures",
+        "release_year": 1970,
+        "feature": false,
+        "cover": "/covers/movies/dead-snow.jpg"
+      },
+      {
+        "title": "Dawn of the Dead",
+        "overview": "Quatro sobreviventes de uma praga de zumbis se refugiam em um grande shopping center abandonado.",
+        "company": "Fox Entertainment",
+        "release_year": 1978,
+        "feature": false,
+        "cover": "/covers/movies/exterminio.jpg"
+      },
+      {
+        "title": "Shaun of the Dead",
+        "overview": "Um homem sem rumo na vida tenta reconquistar a namorada e salvar sua mãe no meio de um apocalipse zumbi repentino.",
+        "company": "Universal Pictures",
+        "release_year": 2004,
+        "feature": false,
+        "cover": "/covers/movies/mortos-vivos.jpg"
+      },
+      {
+        "title": "Rec",
+        "overview": "Uma repórter de televisão e seu cinegrafista ficam presos dentro de um prédio escuro colocado em quarentena por uma infecção mortal.",
+        "company": "Columbia Pictures",
+        "release_year": 2007,
+        "feature": false,
+        "cover": "/covers/movies/opz.jpg"
+      }
+    ]
+  }
+}

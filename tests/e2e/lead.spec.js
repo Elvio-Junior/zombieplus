@@ -1,7 +1,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 const { LandingPage } = require('../pages/LandingPage')
-const { Toast } = require('../pages/Components')
+const { Toast, PoupUp } = require('../pages/Components')
 const { faker } = require('@faker-js/faker')
 
 /**
@@ -14,9 +14,15 @@ let landingPage
  */
 let toast
 
+/**
+ * @type {PoupUp}
+ */
+let poupUp
+
 test.beforeEach(async ({page})=> {
  landingPage = new LandingPage(page)
  toast = new Toast(page)
+ poupUp = new PoupUp(page)
 }) 
 
 test('Deve cadastar 1 lead na espera', async ({ page }) => {
@@ -46,13 +52,17 @@ test('Deve cadastar 1 lead na espera', async ({ page }) => {
   await page.getByTestId('modal')
     .getByText('Quero entrar na fila').click()
 
-  const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
 
   // const content = await.page.content() -- obter o HTML da pagina
-  await expect(page.locator('.toast')).toHaveText(message)
+  // v4
+  //const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //await expect(page.locator('.toast')).toHaveText(message)
+  //await expect(page.locator('.toast')).toBeHidden({ timeout: 5000 })
 
-  await expect(page.locator('.toast')).toBeHidden({ timeout: 5000 })
-
+  const message = 'Verificamos que o endereço de e-mail fornecido já consta em nossa lista de espera. Isso significa que você está um passo mais perto de aproveitar nossos serviços.'
+  
+  await expect(page.locator('.swal2-html-container')).toHaveText(message)
+  
 });
 
 test('Deve cadastar 1 lead na espera - caminho feliz', async ({ page }) => {
@@ -69,9 +79,12 @@ test('Deve cadastar 1 lead na espera - caminho feliz', async ({ page }) => {
   await landingPage.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
-  const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!'
-
-  await toast.containText(message)
+  //v4
+  //const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato!'
+  //await toast.containText(message)
+  //
+  const message = 'Agradecemos por compartilhar seus dados conosco. Em breve, nossa equipe entrará em contato.'
+  await poupUp.haveText('.swal2-html-container', message)
 
 });
 
@@ -96,9 +109,13 @@ test('Não deve cadastar 1 lead na espera com mesmo lead', async ({ page, reques
   await landingPage.submitLeadForm(leadName, leadEmail)
 
   // toastHaveText
-  const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //v4
+  //const message = 'O endereço de e-mail fornecido já está registrado em nossa fila de espera.'
+  //await toast.containText(message)
 
-  await toast.containText(message)
+  const message = 'Verificamos que o endereço de e-mail fornecido já consta em nossa lista de espera. Isso significa que você está um passo mais perto de aproveitar nossos serviços.'
+
+  await poupUp.haveText('.swal2-html-container', message)
 
 });
 
