@@ -9,7 +9,7 @@ export class API {
     }
 
     async setToken() {
-        const response = await this.request.post(`${this.base}/sessions`, {
+        const response = await this.request.post(`${this.baseApi}/sessions`, {
             data: {
                 email: 'admin@zombieplus.com',
                 password: 'pwd123'
@@ -24,43 +24,36 @@ export class API {
 
     }
 
-    async postMovie(movie) {
+    async postMovies(movie) {
 
         //await this.setToken()
 
         const companyId = await this.getCompanyIdByName(movie.company)
 
-        console.log(companyId)
-
-        const response = await this.request.post(`${this.base}/movies`, {
+        const response = await this.request.post(`${this.baseApi}/movies`, {
             headers: {
                 Authorization: this.token,
                 ContentType: 'multipart/form-data',
                 Accept: 'application/json, text/plain, */*'
             },
-            data: {
+            multipart: {
                 title: movie.title,
                 overview: movie.overview,
                 company_id: companyId,
                 release_year: movie.release_year,
                 featured: movie.feature,
-                
+                cover: movie.cover
             }
         })
 
         expect(response.ok()).toBeTruthy()
-
-        const body = JSON.parse(await response.text())
-
-        this.token = body.token
-
     }
 
     async getCompanyIdByName(companyName) {
 
         //await this.setToken()
-
-        const response = await this.request.get(`${this.base}/companies`, {
+        
+        const response = await this.request.get(`${this.baseApi}/companies`, {
             headers: {
                 Authorization: this.token,
                 ContentType: 'multipart/form-data',
@@ -78,4 +71,29 @@ export class API {
         return body.data[0].id
 
     }
+
+    async postTvShows(tvShows) {
+
+        const companyId = await this.getCompanyIdByName(tvShows.company)
+
+        const response = await this.request.post(`${this.baseApi}/tvshows`, {
+            headers: {
+                Authorization: this.token,
+                ContentType: 'multipart/form-data',
+                Accept: 'application/json, text/plain, */*'
+            },
+            multipart: {
+                title: tvShows.title,
+                overview: tvShows.overview,
+                company_id: companyId,
+                release_year: tvShows.release_year,
+                seasons: tvShows.season,
+                featured: tvShows.featured,
+                cover: tvShows.cover
+
+            }
+        })
+        expect(response.ok()).toBeTruthy()
+    }
+
 }

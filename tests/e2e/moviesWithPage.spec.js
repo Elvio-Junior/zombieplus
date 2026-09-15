@@ -13,7 +13,7 @@ test.beforeAll(async () => {
     executeSQL('DELETE from public.movies')
 })
 
-test('deve poder cadastrar um novo filme', async ({ page }) => {
+test('Deve poder cadastrar um novo filme', async ({ page }) => {
 
     const movie = data[0]
 
@@ -28,13 +28,13 @@ test('deve poder cadastrar um novo filme', async ({ page }) => {
     await page.poupUp.haveText(`O filme '${movie.title}' foi adicionado ao catálogo.`)
 })
 
-test('Não deve poder cadastrar quando o titulo é duplicado', async ({ page, api }) => {
+test('Não deve poder cadastrar um filme quando o titulo é duplicado', async ({ page, api }) => {
 
     const movie = data[1]
 
     //executeSQL(`DELETE from movies WHERE title = '${movie.title}'`)
 
-    await api.postMovie(movie)
+    await api.postMovies(movie)
 
     await page.login.do('admin@zombieplus.com', 'pwd123', 'Admin')
 
@@ -43,7 +43,7 @@ test('Não deve poder cadastrar quando o titulo é duplicado', async ({ page, ap
     //v4
     //await page.toast.containText('Oops!Este conteúdo já encontra-se cadastrado no catálogo')
 
-    await page.poupUp.haveText('Oops!Este conteúdo já encontra-se cadastrado no catálogo')
+    await page.poupUp.haveText(`O título '${movie.title}' já consta em nosso catálogo. Por favor, verifique se há necessidade de atualizações ou correções para este item.`)
 
     /*
     await page.login.do('admin@zombieplus.com', 'pwd123', 'Admin')
@@ -56,7 +56,7 @@ test('Não deve poder cadastrar quando o titulo é duplicado', async ({ page, ap
     */
 })
 
-test('não deve cadastrar quando os campos obrigatórios não são preenchidos', async ({ page }) => {
+test('Não deve cadastrar um filme quando os campos obrigatórios não são preenchidos', async ({ page }) => {
 
     await page.login.do('admin@zombieplus.com', 'pwd123', 'Admin')
 
@@ -82,7 +82,7 @@ test('não deve cadastrar quando os campos obrigatórios não são preenchidos',
 
 })
 
-test('deve poder remover um filme', async ({ page }) => {
+test('Deve poder remover um filme', async ({ page }) => {
 
     const movie = data[3]
 
@@ -104,34 +104,19 @@ test('deve poder remover um filme', async ({ page }) => {
 
 })
 
-test('deve realizar busca pelo termo Dead', async ({ page }) => {
+test('Deve realizar busca de um filme pelo termo Dead', async ({ page, api }) => {
 
-    const searchMovies = movies
+    const searchMovies = movies.search
 
-    const m0 = searchMovies.search.data[0]
-    const m1 = searchMovies.search.data[1]
-    const m2 = searchMovies.search.data[2]
-    const m3 = searchMovies.search.data[3]
-
+    searchMovies.data.forEach(async (movie) => {
+       await api.postMovies(movie)
+    })
+    
     await page.login.do('admin@zombieplus.com', 'pwd123', 'Admin')
+    
+    await page.movies.search(searchMovies.input)
 
-    await page.movies.create(m0.title, m0.overview, m0.company, m0.release_year, m0.cover, m0.feature)
-
-    await page.poupUp.haveText(`O filme '${m0.title}' foi adicionado ao catálogo.`)
-
-    await page.movies.create(m1.title, m1.overview, m1.company, m1.release_year, m1.cover, m1.feature)
-
-    await page.poupUp.haveText(`O filme '${m1.title}' foi adicionado ao catálogo.`)
-
-    await page.movies.create(m2.title, m2.overview, m2.company, m2.release_year, m2.cover, m2.feature)
-
-    await page.poupUp.haveText(`O filme '${m2.title}' foi adicionado ao catálogo.`)
-
-    await page.movies.create(m3.title, m3.overview, m3.company, m3.release_year, m3.cover, m3.feature)
-
-    await page.poupUp.haveText(`O filme '${m3.title}' foi adicionado ao catálogo.`)
-
-    await page.movies.tableHave(searchMovies.search.outputs)
+    await page.movies.tableHave(searchMovies.outputs)
 
 
  })

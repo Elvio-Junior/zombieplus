@@ -1,12 +1,17 @@
 import { expect } from '@playwright/test'
 
-export class Movies {
+export class TvShows {
     constructor(page) {
         this.page = page
     }
 
     async goForm() {
-        await this.page.locator('a[href$="register"]').click()
+        await this.page.locator('a[href$="/admin/tvshows"]').click()
+        await this.page.locator('a[href$="/admin/tvshows/register"]').click()
+    }
+
+    async goTvShowsForm() {
+        await this.page.locator('a[href$="/admin/tvshows"]').click()
     }
 
     async submit() {
@@ -14,13 +19,11 @@ export class Movies {
             .click()
     }
 
-    async create(title, overview, company, release_year, cover, featured) {
-        //await this.page.locator('a[href$="register"]').click()
+    async create(title, overview, company, release_year, season, cover, featured) {
         await this.goForm()
 
-        //await this.page.locator('#title').fill(title) // input[name="title"]
-        await this.page.getByLabel('Titulo do filme').fill(title)
-        await this.page.getByLabel('Sinopse').fill(overview)
+        await this.page.locator('#title').fill(title)
+        await this.page.locator('#overview').fill(overview)
 
         await this.page.locator('#select_company_id .react-select__indicator')
             .click()
@@ -34,8 +37,12 @@ export class Movies {
             .filter({ hasText: release_year })
             .click()
 
+        await this.page.locator('#seasons')
+            .fill((season).toString())
+
         await this.page.locator('input[name=cover]')
             .setInputFiles('tests/support/fixtures' + cover)
+
 
         if (featured) {
             await this.page.locator('.featured .react-switch')
@@ -43,13 +50,10 @@ export class Movies {
         }
 
         await this.submit()
-        //await this.page.getByRole('button', {name: 'Cadastrar'})
-        //    .click()        
-
+ 
         await this.page.locator('.swal2-actions')
             .getByRole('button')
             .click()
-
     }
 
     async remove(title) {
@@ -61,6 +65,9 @@ export class Movies {
     }
 
     async search(target) {
+
+        await this.goTvShowsForm()
+
         await this.page.getByPlaceholder('Busque pelo nome')
             .fill(target)
 
@@ -68,7 +75,7 @@ export class Movies {
     }
 
     async tableHave(content) {
-        const rows = this.page.getByRole('row')
+        const rows = await this.page.getByRole('row')
 
         await expect(rows).toContainText(content)
 
