@@ -13,9 +13,9 @@ require('dotenv').config()
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/e2e',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -23,9 +23,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['playwright-tesults-reporter', {'tesults-target': process.env.TESULTS_TOKEN}], 
-    ['dot'], 
-    ['line']],
+  reporter: [['playwright-tesults-reporter', { 'tesults-target': process.env.TESULTS_TOKEN }],
+  ['dot'],
+  ['line']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -33,6 +33,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
     baseURL: process.env.BASE_URL,
     viewport: {
       width: 1440,
@@ -40,6 +41,22 @@ export default defineConfig({
     }
   },
 
+  webServer: [
+    {
+      command: 'npm run dev',
+      cwd: 'apps/api',
+      url: 'http://localhost:3333',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+    {
+      command: 'npm run dev',
+      cwd: 'apps/web',
+      url: 'http://localhost:3000',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ],
   /* Configure projects for major browsers */
   projects: [
     {
