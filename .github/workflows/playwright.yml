@@ -99,6 +99,20 @@ jobs:
           done
           curl -fsS http://localhost:3000 > /dev/null
 
+      - name: Check applications
+        run: |
+          echo "=== API ==="
+          curl -v http://localhost:3333 || true
+
+          echo "=== WEB ==="
+          curl -v http://localhost:3000 || true
+
+          echo "=== API LOG ==="
+          cat api.log || true
+
+          echo "=== WEB LOG ==="
+          cat web.log || true
+
       - name: Run Playwright tests
         run: npx playwright test
 
