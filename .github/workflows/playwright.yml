@@ -67,38 +67,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Start API
-        working-directory: apps/api
-        run: npm run dev > ../../api.log 2>&1 &
-
-      - name: Wait for API
-        run: |
-          for i in {1..30}; do
-            if curl -fsS http://localhost:3333 > /dev/null 2>&1; then
-              echo "API is ready."
-              break
-            fi
-            echo "Waiting for API..."
-            sleep 2
-          done
-          curl -fsS http://localhost:3333 > /dev/null
-
-      - name: Start Web
-        working-directory: apps/web
-        run: npm run dev > ../../web.log 2>&1 &
-
-      - name: Wait for Web
-        run: |
-          for i in {1..30}; do
-            if curl -fsS http://localhost:3000 > /dev/null 2>&1; then
-              echo "Web application is ready."
-              break
-            fi
-            echo "Waiting for Web..."
-            sleep 2
-          done
-          curl -fsS http://localhost:3000 > /dev/null
-
       - name: Check applications
         run: |
           echo "=== API ==="
