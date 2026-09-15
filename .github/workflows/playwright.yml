@@ -1,27 +1,129 @@
-name: Playwright Tests
+name: Playwright CI
+
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+
 jobs:
   test:
-    timeout-minutes: 60
+    name: E2E Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: zombieplus
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d zombieplus"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      CI: true
+      BASE_URL: http://localhost:3000
+      BASE_API: http://localhost:3333
+      DB_DIALECT: postgres
+      DB_HOST: localhost
+      DB_NAME: zombieplus
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_PORT: 5432
+      TESULTS_TOKEN: ${{ secrets.TESULTS_TOKEN }}
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install API dependencies
+        working-directory: apps/api
+        run: npm ci
+
+      - name: Install Web dependencies
+        working-directory: apps/web
+        run: npm ci
+
+      - name: Initialize database
+        working-directory: apps/api
+        run: bash db.sh
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start API
+        working-directory: apps/api
+        run: npm run dev > ../../api.log 2>&1 &
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:3333 > /dev/null 2>&1; then
+              echo "API is ready."
+              break
+            fi
+            echo "Waiting for API..."
+            sleep 2
+          done
+          curl -fsS http://localhost:3333 > /dev/null
+
+      - name: Start Web
+        working-directory: apps/web
+        run: npm run dev > ../../web.log 2>&1 &
+
+      - name: Wait for Web
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:3000 > /dev/null 2>&1; then
+              echo "Web application is ready."
+              break
+            fi
+            echo "Waiting for Web..."
+            sleep 2
+          done
+          curl -fsS http://localhost:3000 > /dev/null
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 30
+
+      - name: Upload application logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-logs
+          path: |
+            api.log
+            web.log
+          retention-days: 7
